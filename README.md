@@ -64,3 +64,8 @@ The evaluation code is inside the `eval` directory.
 - Make sure to point to the correct checkpoint.
 - The evaluation file will only save the generations; use the parser to calculate accuracy
 - For example, baseline generations are in the `eval_baselines` directory. Use `python parse_and_get_acc.py` to print the accuracy.
+
+
+# Acknowledgement
+
+The implementation is adapted from [d1](https://github.com/dllm-reasoning/d1). We appreciate the clear repository!
