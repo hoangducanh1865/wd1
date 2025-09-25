@@ -6,8 +6,6 @@
 
 
 
-![Results](media/comparison.png)
-
 
 ## Environment Setup
 
