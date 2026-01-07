@@ -318,7 +318,11 @@ class RevDiffuGRPOTrainer(GRPOTrainer):
 
     def forward_process(self, batch, prompt_index, mask_id, seed=None):
         # masking prompt randomly and all completion tokens
-        set_seed(seed)
+        if seed is not None:
+            # Convert tensor to int if needed
+            if isinstance(seed, torch.Tensor):
+                seed = seed.item()
+            set_seed(seed)
         b, l = batch.shape
         t_p = torch.ones(b, device=batch.device) * self.args.p_mask_prompt
 

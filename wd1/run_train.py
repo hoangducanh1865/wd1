@@ -92,34 +92,36 @@ def main(grpo_config, model_config):
 
     # Split dataset if needed
     if grpo_config.dataset in ["countdown", "sudoku"]:
-        train_set = dataset.select(
-            range(0, len(dataset) - 500)
-        )  # Leave last 500 for evaluation
+        train_set = dataset.select(range(0, len(dataset) - 500))  # Leave last 500 for evaluation
     else:
         train_set = dataset
 
     # Set up device
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
+    # Check for BF16 support
+    if torch.cuda.is_available() and torch.cuda.is_bf16_supported():
+        compute_dtype = torch.bfloat16
+    else:
+        compute_dtype = torch.float16
+
     # 4 bit quantization configuration
     bnb_config = BitsAndBytesConfig(
         load_in_4bit=True,
         bnb_4bit_use_double_quant=True,
         bnb_4bit_quant_type="nf4",
-        bnb_4bit_compute_dtype=torch.bfloat16,
+        bnb_4bit_compute_dtype=compute_dtype,
     )
 
     # Load model and tokenizer - use SFT path if on top of SFT
     model = AutoModel.from_pretrained(
         grpo_config.model_path,
         trust_remote_code=True,
-        torch_dtype=torch.bfloat16,
+        torch_dtype=compute_dtype,
         quantization_config=bnb_config,
     ).to(device)
 
-    tokenizer = AutoTokenizer.from_pretrained(
-        grpo_config.model_path, trust_remote_code=True
-    )
+    tokenizer = AutoTokenizer.from_pretrained(grpo_config.model_path, trust_remote_code=True)
     tokenizer.pad_token = tokenizer.eos_token
     model.config.use_cache = False
 
