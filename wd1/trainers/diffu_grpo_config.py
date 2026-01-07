@@ -18,7 +18,7 @@ from typing import Literal, Optional
 from transformers import TrainingArguments
 
 TrainerType = Literal[
-    "d1", "wll_d1_neg", "wll_d1_pos_only", "wll_mmada", "wll_d1_neg_ref"
+    "d1", "wll_d1_neg", "wll_d1_pos_only", "wll_mmada", "wll_d1_neg_ref", "ot_wd1"
 ]
 MaddaMaskingSchedule = Literal["cosine", "linear", "pow", "sigmoid"]
 

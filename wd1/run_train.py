@@ -35,6 +35,7 @@ from wd1.trainers.eval_callback import AccuracyEvalCallback
 from wd1.trainers.rev_grpo_ref_pol_trainer import RevDiffuRefPolGRPOTrainer
 from wd1.trainers.rev_grpo_trainer import RevDiffuGRPOTrainer
 from wd1.trainers.rev_grpo_trainer_psr import RevPSRDiffuGRPOTrainer
+from wd1.trainers.ot_wd1_trainer import OTWD1Trainer
 
 # Custom imports
 
@@ -175,6 +176,26 @@ def main(grpo_config, model_config):
         )
     elif grpo_config.trainer_type == "wll_d1_pos_only":
         trainer = RevPSRDiffuGRPOTrainer(
+            args=grpo_config,
+            model=model,
+            peft_config=peft_config,
+            reward_funcs=reward_functions,
+            train_dataset=train_set,
+            eval_dataset=val_dataset,
+            callbacks=[
+                AccuracyEvalCallback(
+                    val_dataset,
+                    tokenizer=tokenizer,
+                    gen_length=grpo_config.max_completion_length,
+                    temperature=0.0,
+                    steps=grpo_config.diffusion_steps,
+                    block_length=grpo_config.block_length,
+                    batch_size=grpo_config.per_device_eval_batch_size,
+                )
+            ],
+        )
+    elif grpo_config.trainer_type == "ot_wd1":
+        trainer = OTWD1Trainer(
             args=grpo_config,
             model=model,
             peft_config=peft_config,
