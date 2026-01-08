@@ -17,9 +17,7 @@ from typing import Literal, Optional
 
 from transformers import TrainingArguments
 
-TrainerType = Literal[
-    "d1", "wll_d1_neg", "wll_d1_pos_only", "wll_mmada", "wll_d1_neg_ref", "ot_wd1"
-]
+TrainerType = Literal["d1", "wll_d1_neg", "wll_d1_pos_only", "wll_mmada", "wll_d1_neg_ref", "ot_wd1"]
 MaddaMaskingSchedule = Literal["cosine", "linear", "pow", "sigmoid"]
 
 
@@ -224,9 +222,7 @@ class DiffuGRPOConfig(TrainingArguments):
     # Parameters that control generation
     temperature: float = field(
         default=0.9,
-        metadata={
-            "help": "Temperature for sampling. The higher the temperature, the more random the completions."
-        },
+        metadata={"help": "Temperature for sampling. The higher the temperature, the more random the completions."},
     )
     top_p: float = field(
         default=1.0,
@@ -259,9 +255,7 @@ class DiffuGRPOConfig(TrainingArguments):
     )
     cache_implementation: Optional[str] = field(
         default=None,
-        metadata={
-            "help": "Implementation of the cache method for faster generation when use_vllm is set to False."
-        },
+        metadata={"help": "Implementation of the cache method for faster generation when use_vllm is set to False."},
     )
 
     # Parameters that control generation acceleration powered by vLLM
@@ -314,9 +308,7 @@ class DiffuGRPOConfig(TrainingArguments):
     )
     vllm_guided_decoding_regex: Optional[str] = field(
         default=None,
-        metadata={
-            "help": "Regex for vLLM guided decoding. If `None` (default), guided decoding is disabled."
-        },
+        metadata={"help": "Regex for vLLM guided decoding. If `None` (default), guided decoding is disabled."},
     )
 
     # Parameters that control the training
@@ -336,9 +328,7 @@ class DiffuGRPOConfig(TrainingArguments):
     )
     num_iterations: int = field(
         default=1,
-        metadata={
-            "help": "Number of iterations per batch (denoted as μ in the algorithm)."
-        },
+        metadata={"help": "Number of iterations per batch (denoted as μ in the algorithm)."},
     )
     epsilon: float = field(
         default=0.2,
